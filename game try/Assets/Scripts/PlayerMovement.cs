@@ -28,7 +28,7 @@ public class PlayerMovement : MonoBehaviour
     void Update()
     {
 
-        if(Input.GetMouseButtonDown(0))
+        if(Input.GetMouseButtonDown(0) && Input.mousePosition.x < Screen.width / 2)
         {
             pointA = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x,Input.mousePosition.y,Input.mousePosition.z));
 
@@ -39,7 +39,7 @@ public class PlayerMovement : MonoBehaviour
             outerCircle.GetComponent<SpriteRenderer>().enabled = true;
         }
 
-        if(Input.GetMouseButton(0))
+        if(Input.GetMouseButton(0) && Input.mousePosition.x < Screen.width / 2)
         {
             touchStart = true;
             if (Input.mousePosition.x < Screen.width / 2)
@@ -52,30 +52,34 @@ public class PlayerMovement : MonoBehaviour
             touchStart = false;
             lHalf = false;
         }
-        int i = 0;
-        while( i <Input.touchCount )
-            {
-
-        if (Input.GetMouseButton(0))
+        //int i = 0;
+       
+        if( Input.mousePosition.x < Screen.width / 2)
         {
-            if (Input.mousePosition.x > Screen.width / 2)
+            movemoent.x = Input.GetAxisRaw("Horizontal");
+            movemoent.y = Input.GetAxisRaw("Vertical");
+        }
+            
+
+        if (Input.GetMouseButton(0) && Input.mousePosition.x > Screen.width / 2)
+            { 
                 shootBullet();
         }
-            i++;
-        }
 
 
-            movemoent.x = Input.GetAxisRaw("Horizontal");
-        movemoent.y = Input.GetAxisRaw("Vertical");
     }
 
     private void FixedUpdate()
     {
+        if(lHalf)
+        {
         if(touchStart && lHalf)
         {
             Vector2 offset = pointB - pointA;
             Vector2 direction = Vector2.ClampMagnitude(offset, 1.0f);
-            moveCharacter(direction);
+                player.Translate(direction * moveSpeed * Time.fixedDeltaTime);
+
+               // moveCharacter(direction);
 
             circle.transform.position = new Vector2(pointA.x + direction.x, pointA.y + direction.y) ;
         }
@@ -85,11 +89,13 @@ public class PlayerMovement : MonoBehaviour
             circle.GetComponent<SpriteRenderer>().enabled = false;
             outerCircle.GetComponent<SpriteRenderer>().enabled = false;
         }
+            rb.MovePosition(rb.position + movemoent *moveSpeed * Time.fixedDeltaTime);
+
+        }
 
 
 
-
-        rb.MovePosition(rb.position + movemoent *moveSpeed * Time.fixedDeltaTime);
+        
     }
 
     void moveCharacter(Vector2 directioin)
