@@ -22,6 +22,9 @@ public class PlayerMovement : MonoBehaviour
     public Transform circle = null;
     public Transform outerCircle;
 
+    public GameObject bulletPrefab;
+
+
 
 
     // Update is called once per frame
@@ -59,8 +62,9 @@ public class PlayerMovement : MonoBehaviour
             movemoent.x = Input.GetAxisRaw("Horizontal");
             movemoent.y = Input.GetAxisRaw("Vertical");
         }
-            
 
+        int i = 0;
+        //while()
         if (Input.GetMouseButton(0) && Input.mousePosition.x > Screen.width / 2)
             { 
                 shootBullet();
@@ -69,9 +73,16 @@ public class PlayerMovement : MonoBehaviour
 
     }
 
+    void shootBullet()
+    {
+        GameObject b = Instantiate(bulletPrefab) as GameObject;
+        b.transform.position = player.transform.position;
+    }
+
+
     private void FixedUpdate()
     {
-        if(lHalf)
+       // if(lHalf)
         {
         if(touchStart && lHalf)
         {
@@ -103,8 +114,5 @@ public class PlayerMovement : MonoBehaviour
         player.Translate(directioin * moveSpeed * Time.fixedDeltaTime);
     }
 
-    void shootBullet()
-    {
-        Debug.Log("Fire");
-    }
+   
 }
