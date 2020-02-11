@@ -27,4 +27,11 @@ public class bullet : MonoBehaviour
             Destroy(this.gameObject);
         }
     }
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+
+        Destroy(other.gameObject);
+        Destroy(this.gameObject);
+
+    }
 }
