@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -21,8 +22,9 @@ public class PlayerMovement : MonoBehaviour
 
     public Transform circle = null;
     public Transform outerCircle;
+    
+    
 
-    public GameObject bulletPrefab;
 
 
 
@@ -55,7 +57,6 @@ public class PlayerMovement : MonoBehaviour
             touchStart = false;
             lHalf = false;
         }
-        //int i = 0;
        
         if( Input.mousePosition.x < Screen.width / 2)
         {
@@ -63,23 +64,9 @@ public class PlayerMovement : MonoBehaviour
             movemoent.y = Input.GetAxisRaw("Vertical");
         }
 
-        int i = 0;
-        //while()
-        if (Input.GetMouseButton(0) && Input.mousePosition.x > Screen.width / 2)
-            { 
-                shootBullet();
-        }
-
 
     }
-
-    void shootBullet()
-    {
-        GameObject b = Instantiate(bulletPrefab) as GameObject;
-        b.transform.position = player.transform.position;
-    }
-
-
+   
     private void FixedUpdate()
     {
        // if(lHalf)
@@ -114,5 +101,5 @@ public class PlayerMovement : MonoBehaviour
         player.Translate(directioin * moveSpeed * Time.fixedDeltaTime);
     }
 
-   
+
 }
