@@ -29,9 +29,12 @@ public class bullet : MonoBehaviour
     }
     private void OnTriggerEnter2D(Collider2D other)
     {
+        if(other.gameObject.tag == "trees")
+        {
+           Destroy(other.gameObject);
+           Destroy(this.gameObject);
 
-        Destroy(other.gameObject);
-        Destroy(this.gameObject);
+        }
 
     }
 }
