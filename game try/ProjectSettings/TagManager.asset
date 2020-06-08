@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Joystick
   - trees
+  - Enemy
   layers:
   - Default
   - TransparentFX
