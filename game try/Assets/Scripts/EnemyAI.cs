@@ -7,20 +7,13 @@ using Pathfinding;
 public class EnemyAI : MonoBehaviour
 {
 
-    private Transform target;
+    public Transform target;
 
     public float speed = 800f;
-    public float maxDistance = 5f;
     public float nextWaypointDistance = 3f;
 
-    public Transform player;
 
-    
     public Transform enemy;
-
-    public Transform enemyPosition;
-
-    private Vector2 initialPosition;
 
 
     Path path;
@@ -33,11 +26,8 @@ public class EnemyAI : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        target = player;
         seeker = GetComponent<Seeker>();
         rb = GetComponent<Rigidbody2D>();
-
-        initialPosition = rb.position;
 
         InvokeRepeating("UpdatePath", 0f, .5f);
     }
@@ -86,30 +76,12 @@ public class EnemyAI : MonoBehaviour
 
         rb.AddForce(force);
 
-        float targetDistacnce = Vector2.Distance(rb.position, target.position);
-        float playerDistacnce = Vector2.Distance(rb.position, player.position);
-        float positionDistacnce = Vector2.Distance(rb.position, enemyPosition.position);
-
-        if (targetDistacnce > maxDistance)
-            target = enemyPosition ;
-
-
-        if (playerDistacnce < maxDistance && positionDistacnce < 1f)
-            target = player;
-
-        if (positionDistacnce > 10f)
-            target = enemyPosition;
-
-
-
         float distance = Vector2.Distance(rb.position, path.vectorPath[currentWaypoint]);
-        
 
         if(distance < nextWaypointDistance)
         {
 
             currentWaypoint++;
-            Debug.Log(" player distance = " + playerDistacnce);
         }
 
         if(force.x >=.01f)
