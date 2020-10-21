@@ -15,6 +15,7 @@ public class EnemyAI : MonoBehaviour
 
     public Transform player;
 
+    public Animator animator;
     
     public Transform enemy;
 
@@ -84,6 +85,8 @@ public class EnemyAI : MonoBehaviour
         Vector2 direction = ((Vector2)path.vectorPath[currentWaypoint] - rb.position).normalized;
         Vector2 force = direction * speed * Time.deltaTime;
 
+        animator.SetFloat("Speed", Mathf.Max(Mathf.Abs(force.x), Mathf.Abs(force.y)));
+
         rb.AddForce(force);
 
         float targetDistacnce = Vector2.Distance(rb.position, target.position);
@@ -109,7 +112,8 @@ public class EnemyAI : MonoBehaviour
         {
 
             currentWaypoint++;
-            Debug.Log(" player distance = " + playerDistacnce);
+            // Print distance
+           // Debug.Log(" player distance = " + playerDistacnce);
         }
 
         if(force.x >=.01f)
