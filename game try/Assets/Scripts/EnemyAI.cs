@@ -13,19 +13,15 @@ public class EnemyAI : MonoBehaviour
     public float maxDistance = 5f;
     public float nextWaypointDistance = 3f;
 
-    public Transform player; // the player
+    public Transform player;
 
     public Animator animator;
     
-    public Transform enemy;  // the enemy body
+    public Transform enemy;
 
-    public Transform enemyPosition;  // current position of the enemy
+    public Transform enemyPosition;
 
-    private Vector2 initialPosition;    // initial position of the enemy
-
-    public float atkDistance = 2f;  // distance where the enemy should atk
-
-    public float forcePower = 2f; // to control the force
+    private Vector2 initialPosition;
 
 
     Path path;
@@ -89,26 +85,13 @@ public class EnemyAI : MonoBehaviour
         Vector2 direction = ((Vector2)path.vectorPath[currentWaypoint] - rb.position).normalized;
         Vector2 force = direction * speed * Time.deltaTime;
 
+        animator.SetFloat("Speed", Mathf.Max(Mathf.Abs(force.x), Mathf.Abs(force.y)));
+
+        rb.AddForce(force);
 
         float targetDistacnce = Vector2.Distance(rb.position, target.position);
         float playerDistacnce = Vector2.Distance(rb.position, player.position);
         float positionDistacnce = Vector2.Distance(rb.position, enemyPosition.position);
-
-        animator.SetFloat("Speed", Mathf.Max(Mathf.Abs(force.x), Mathf.Abs(force.y)));
-
-
-
-        //Cotroling the force
-        force.x = force.x * forcePower / Mathf.Abs(force.x);
-        force.y = force.y * forcePower / Mathf.Abs(force.y);
-
-
-
-
-        if(playerDistacnce > atkDistance || target != player) //stoping the force when in atk range
-        rb.AddForce(force);
-
-        Debug.Log("           Force  :  " + force); //display force
 
         if (targetDistacnce > maxDistance)
             target = enemyPosition ;

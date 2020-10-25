@@ -12517,7 +12517,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1965980027}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &347727454
 GameObject:
@@ -12715,13 +12715,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animator: {fileID: 1965980033}
-  atkPoint: {fileID: 1621050232}
-  atkRange: 0.62
-  enemyLayer:
-    serializedVersion: 2
-    m_Bits: 512
-  weaponDmg: 50
-  atkRate: 1
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -14197,8 +14190,7 @@ GameObject:
   - component: {fileID: 1148893944}
   - component: {fileID: 1148893950}
   - component: {fileID: 1148893949}
-  - component: {fileID: 1148893951}
-  m_Layer: 9
+  m_Layer: 8
   m_Name: Enemy (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -14261,8 +14253,6 @@ MonoBehaviour:
   animator: {fileID: 1148893950}
   enemy: {fileID: 1148893948}
   enemyPosition: {fileID: 1379708142}
-  atkDistance: 1
-  forcePower: 5
 --- !u!114 &1148893947
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14374,22 +14364,6 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!114 &1148893951
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1148893943}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8eb358782786dc34ab59debb793e054b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  max_hp: 100
-  current_hp: 0
-  animator: {fileID: 1148893950}
-  deathTime: 1.1
 --- !u!1 &1171010886
 GameObject:
   m_ObjectHideFlags: 0
@@ -14539,7 +14513,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!50 &1215892786
 Rigidbody2D:
   serializedVersion: 4
@@ -14596,8 +14570,6 @@ MonoBehaviour:
   animator: {fileID: 0}
   enemy: {fileID: 1442269224}
   enemyPosition: {fileID: 116931586}
-  atkDistance: 2
-  forcePower: 2
 --- !u!114 &1215892789
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15469,36 +15441,6 @@ Transform:
   - {fileID: 1379708142}
   m_Father: {fileID: 0}
   m_RootOrder: 14
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1621050231
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1621050232}
-  m_Layer: 8
-  m_Name: SwordAtkPoiint
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1621050232
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1621050231}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.001, y: -0.441, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 1965980027}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1750650613
 GameObject:
@@ -70648,7 +70590,6 @@ GameObject:
   - component: {fileID: 1965980032}
   - component: {fileID: 1965980033}
   - component: {fileID: 1965980028}
-  - component: {fileID: 1965980034}
   m_Layer: 8
   m_Name: player
   m_TagString: Untagged
@@ -70717,7 +70658,6 @@ Transform:
   m_LocalPosition: {x: 3.77, y: 3.1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 1621050232}
   - {fileID: 299736337}
   m_Father: {fileID: 0}
   m_RootOrder: 2
@@ -70735,13 +70675,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animator: {fileID: 1965980033}
-  atkPoint: {fileID: 1621050232}
-  atkRange: 0.62
-  enemyLayer:
-    serializedVersion: 2
-    m_Bits: 512
-  weaponDmg: 50
-  atkRate: 1
 --- !u!50 &1965980029
 Rigidbody2D:
   serializedVersion: 4
@@ -70841,15 +70774,3 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!114 &1965980034
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1965980025}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bc9c0ae6bbc7def4fa219ded3c6f43e3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
