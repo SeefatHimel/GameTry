@@ -69,11 +69,23 @@ public class PlayerMovement : MonoBehaviour
    
     private void FixedUpdate()
     {
-       // if(lHalf)
+
+
+     
+
+
+
+
+
+
+        // if(lHalf)
         {
-        if(touchStart && lHalf)
+            if (touchStart && lHalf)
         {
             Vector2 offset = pointB - pointA;
+
+
+
             Vector2 direction = Vector2.ClampMagnitude(offset, 1.0f);
                 player.Translate(direction * moveSpeed * Time.fixedDeltaTime);
 
@@ -87,6 +99,7 @@ public class PlayerMovement : MonoBehaviour
             circle.GetComponent<SpriteRenderer>().enabled = false;
             outerCircle.GetComponent<SpriteRenderer>().enabled = false;
         }
+
             rb.MovePosition(rb.position + movemoent *moveSpeed * Time.fixedDeltaTime);
 
         }
