@@ -16,8 +16,10 @@ public class EnemyAI : MonoBehaviour
     public Transform player; // the player
 
     public Animator animator;
-    
+
     public Transform enemy;  // the enemy body
+
+    public Transform heathbar; // to flip health bar
 
     public Transform enemyPosition;  // current position of the enemy
 
@@ -28,12 +30,27 @@ public class EnemyAI : MonoBehaviour
     public float forcePower = 2f; // to control the force
 
 
+    float time1, tim2 = 1f;
+
+    public float yminDistance = 3f;
+
+
     Path path;
     int currentWaypoint = 0;
     bool reachedEndOfPath = false;
 
     Seeker seeker;
     Rigidbody2D rb;
+
+    private bool attcking = false;
+
+
+
+    // for atk rate
+    public float atkRate = 0.5f; // how many atk per sec
+    float nxtArkTime = 0f; // when we can atrk again
+
+
 
     // Start is called before the first frame update
     void Start()
@@ -45,11 +62,13 @@ public class EnemyAI : MonoBehaviour
         initialPosition = rb.position;
 
         InvokeRepeating("UpdatePath", 0f, .5f);
+
+        time1 = Time.time;
     }
 
     void UpdatePath()
     {
-        if(seeker.IsDone())
+        if (seeker.IsDone())
         {
             seeker.StartPath(rb.position, target.position, OnPathComplete);
         }
@@ -58,7 +77,7 @@ public class EnemyAI : MonoBehaviour
 
     void OnPathComplete(Path p)
     {
-        if(!p.error)
+        if (!p.error)
         {
             path = p;
             currentWaypoint = 0;
@@ -75,7 +94,7 @@ public class EnemyAI : MonoBehaviour
         if (path == null)
             return;
 
-        if(currentWaypoint >= path.vectorPath.Count)
+        if (currentWaypoint >= path.vectorPath.Count)
         {
             reachedEndOfPath = true;
             return;
@@ -88,6 +107,7 @@ public class EnemyAI : MonoBehaviour
 
         Vector2 direction = ((Vector2)path.vectorPath[currentWaypoint] - rb.position).normalized;
         Vector2 force = direction * speed * Time.deltaTime;
+        Vector2 zeroForce = direction * 0f;
 
 
         float targetDistacnce = Vector2.Distance(rb.position, target.position);
@@ -96,50 +116,86 @@ public class EnemyAI : MonoBehaviour
 
         animator.SetFloat("Speed", Mathf.Max(Mathf.Abs(force.x), Mathf.Abs(force.y)));
 
+        
 
 
         //Cotroling the force
         force.x = force.x * forcePower / Mathf.Abs(force.x);
         force.y = force.y * forcePower / Mathf.Abs(force.y);
 
+        animator.SetFloat("distance", playerDistacnce); // seting target distance in the animator
+
+        //stoping the force when in atk range
+        if (targetDistacnce > atkDistance && !animator.GetCurrentAnimatorStateInfo(0).IsTag("Natk"))
+        {
+            rb.AddForce(force);
 
 
 
-        if(playerDistacnce > atkDistance || target != player) //stoping the force when in atk range
-        rb.AddForce(force);
+            //if (Mathf.Abs (rb.position.y - target.position.y + 0.3f) < 0.1 )
+            //{
+            //    rb.velocity = new Vector3(rb.velocity.x, 0f, 0f);
 
-        Debug.Log("           Force  :  " + force); //display force
+            //}
+            //else if ( targetDistacnce < yminDistance)
+            //{
+            //    rb.velocity = new Vector3( 0f, rb.velocity.y, 0f);
 
-        if (targetDistacnce > maxDistance)
-            target = enemyPosition ;
+            //}
 
 
-        if (playerDistacnce < maxDistance && positionDistacnce < 1f)
+        }
+        else if (target == player && playerDistacnce <= atkDistance)
+        {
+            // rb.AddForce(zeroForce);
+
+            rb.velocity = Vector3.zero;
+
+
+
+            if (Time.time >= nxtArkTime && target == player && !animator.GetCurrentAnimatorStateInfo(0).IsTag("Natk"))
+            {
+                nxtArkTime = Time.time + 1f / atkRate; // Setting nxt atk time
+
+                animator.SetTrigger("atk");
+            }
+        }
+
+
+
+        //Debug.Log("           Force  :  " + force); //display force
+
+        if (positionDistacnce > 10f || playerDistacnce > maxDistance)
+            target = enemyPosition;
+
+
+        else if (playerDistacnce <= maxDistance)
             target = player;
 
-        if (positionDistacnce > 10f)
-            target = enemyPosition;
 
 
 
         float distance = Vector2.Distance(rb.position, path.vectorPath[currentWaypoint]);
-        
 
-        if(distance < nextWaypointDistance)
+
+        if (distance < nextWaypointDistance)
         {
 
             currentWaypoint++;
             // Print distance
-           // Debug.Log(" player distance = " + playerDistacnce);
+            // Debug.Log(" player distance = " + playerDistacnce);
         }
 
-        if(force.x >=.01f)
+        // for fliping the enemy
+        if (rb.position.x < target.position.x)
         {
             enemy.localScale = new Vector3(-1f, 1f, 1f);
+            heathbar.localScale = new Vector3(-0.01f, 0.01f, 0.01f);
         }
-        else if (force.x <=-.01f)
+        else if (rb.position.x > target.position.x)
         {
             enemy.localScale = new Vector3(1f, 1f, 1f);
+            heathbar.localScale = new Vector3(0.01f, 0.01f, 0.01f);
 
         }
     }

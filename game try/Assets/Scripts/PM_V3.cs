@@ -23,8 +23,16 @@ public class PM_V3 : MonoBehaviour
     private void Update()
     {
 
-        rb.velocity = new Vector2(joystick.Horizontal * 20 * moveSpeed, joystick.Vertical * 15 * moveSpeed);
 
+
+        rb.velocity = new Vector2(joystick.Horizontal * 20 * moveSpeed, joystick.Vertical * 15 * moveSpeed);
+        if(this.animator.GetCurrentAnimatorStateInfo(0).IsTag("patk"))
+        {
+
+            rb.velocity = new Vector2(0 , 0);
+
+
+        }
         movement.x = Input.GetAxisRaw("Horizontal");
         movement.y = Input.GetAxisRaw("Vertical");
 
@@ -44,39 +52,46 @@ public class PM_V3 : MonoBehaviour
 
         if (movement.x != 0 || movement.y != 0)
         {
-            animator.SetFloat("Speed", Mathf.Max( Mathf.Abs(movement.x), Mathf.Abs(movement.y)));
+            animator.SetFloat("Speed", Mathf.Max(Mathf.Abs(movement.x), Mathf.Abs(movement.y)));
         }
         else
         {
-            animator.SetFloat("Speed", Mathf.Max( Mathf.Abs(movement2.x), Mathf.Abs(movement2.y)));
+            animator.SetFloat("Speed", Mathf.Max(Mathf.Abs(movement2.x), Mathf.Abs(movement2.y)));
         }
 
 
-      //  Debug.Log(" X position = " + movement2.x);
-      //  Debug.Log(" Xx position = " + movement.x);
+        //  Debug.Log(" X position = " + movement2.x);
+        //  Debug.Log(" Xx position = " + movement.x);
 
 
 
         //for arrow keys
-        if(!this.animator.GetCurrentAnimatorStateInfo(0).IsTag("Attack_animation"))
+        if (!this.animator.GetCurrentAnimatorStateInfo(0).IsTag("patk"))
         {
 
-        if (movement.x >= .01f || movement2.x >= .01f)
-        {
-            player.localScale = new Vector3(1f, 1f, 1f);
-        }
-        else if (movement.x <= -.01f || movement2.x <= -.01f)
-        {
-            player.localScale = new Vector3(-1f, 1f, 1f);
+            if (movement.x >= .01f || movement2.x >= .01f)
+            {
+                player.localScale = new Vector3(1f, 1f, 1f);
+            }
+            else if (movement.x <= -.01f || movement2.x <= -.01f)
+            {
+                player.localScale = new Vector3(-1f, 1f, 1f);
 
-        }
+            }
 
-        if(movement2.x==0 && movement2.y==0)
-        rb.MovePosition(rb.position + movement * moveSpeed * Time.fixedDeltaTime);
+           //if(this.animator.GetCurrentAnimatorStateInfo(0).IsTag("patk"))
+           //     Debug.Log("Atk animation") ;
+           // if (this.animator.GetCurrentAnimatorStateInfo(0).IsTag("pidle"))
+           //     Debug.Log("idle animation") ;
+           // if (this.animator.GetCurrentAnimatorStateInfo(0).IsTag("prun"))
+           //     Debug.Log("Run animation") ;
 
-        //for Joystick
-        else
-        rb.MovePosition(rb.position + movement2 * moveSpeed * Time.fixedDeltaTime);
+            if (movement2.x == 0 && movement2.y == 0)
+                rb.MovePosition(rb.position + movement * moveSpeed * Time.fixedDeltaTime);
+
+            //for Joystick
+            else
+                rb.MovePosition(rb.position + movement2 * moveSpeed * Time.fixedDeltaTime);
 
 
         }

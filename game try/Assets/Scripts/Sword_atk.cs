@@ -2,6 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
+/// <summary>
+///  Script is mainly called from the button not from the player
+/// </summary>
+
+
+
 public class Sword_atk : MonoBehaviour
 {
     public Animator animator;
@@ -10,12 +17,14 @@ public class Sword_atk : MonoBehaviour
     public Transform atkPoint;
     public float atkRange;
     public LayerMask enemyLayer;
-    public int weaponDmg = 50;
+    public int weaponDamage;
 
     // for atk rate
     public float atkRate = 1f; // how many atk per sec
     float nxtArkTime = 0f; // when we can atrk again
 
+
+  
 
     void Update()
     {
@@ -23,32 +32,35 @@ public class Sword_atk : MonoBehaviour
 
     }
 
-    public void swordAtk()
+    public void atkTrigger()
     {
 
         if(Time.time >= nxtArkTime)
         {
             nxtArkTime = Time.time + 1f / atkRate; // Setting nxt atk time
 
-        if (!this.animator.GetCurrentAnimatorStateInfo(0).IsTag("Attack_animation")) // So that one cant atk while in atk animation 
-        {
 
             animator.SetTrigger("Atk");
+       
+
+        }
+
+    }
+
+    public void swordAtk()
+    {
 
 
             Collider2D[] hit_enemies = Physics2D.OverlapCircleAll(atkPoint.position, atkRange, enemyLayer);
 
             foreach (Collider2D enemy in hit_enemies)
             {
-                Debug.Log("We hit " + enemy.name + " " + weaponDmg);
+                Debug.Log("We hit " + enemy.name + " " + weaponDamage);
 
-                enemy.GetComponent<life>().TakeDamage(weaponDmg);
+                enemy.GetComponent<life>().TakeDamage(weaponDamage);
 
 
             }
-
-        }
-        }
 
     }
 
@@ -60,5 +72,11 @@ public class Sword_atk : MonoBehaviour
         Gizmos.DrawWireSphere(atkPoint.position, atkRange);
     }
 
+
+
+    public void SwordAtkSoundPlayer()
+    {
+        FindObjectOfType<AudioManager>().Play("SwordSound2");
+    }
 
 }

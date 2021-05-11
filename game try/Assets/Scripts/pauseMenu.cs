@@ -9,6 +9,11 @@ public class pauseMenu : MonoBehaviour
     bool gamePaused = false;
 
     public GameObject PauseMenuUI;
+    public GameObject deathMenuUI;
+    public Animator animator;
+
+    public GameObject player;
+    bool dead = false;
 
     void Update()
     {
@@ -24,6 +29,10 @@ public class pauseMenu : MonoBehaviour
                 pause();
             }
         }
+
+        int hp = player.GetComponent<Player_health>().playerHP();
+        if (hp <= 0 && !dead)
+            playerDead();
     }
 
     public void resume()
@@ -52,6 +61,7 @@ public class pauseMenu : MonoBehaviour
         Debug.Log("Restarting...");
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
         PauseMenuUI.SetActive(false);
+        deathMenuUI.SetActive(false);
    //     pausebtn.SetActive(true);
 
         Time.timeScale = 1f;
@@ -74,5 +84,19 @@ public class pauseMenu : MonoBehaviour
     {
         Debug.Log("Quit!");
         Application.Quit();
+    }
+
+    public void playerDead()
+    {
+
+        dead = true;
+        deathMenuUI.SetActive(true);
+        Debug.Log("deeeeeeeeeeaaaaaaaaaaaaad");
+        animator.SetTrigger("start");
+        Debug.Log("trrriiigggerrr");
+
+        Time.timeScale = 0f;
+        gamePaused = true;
+
     }
 }
